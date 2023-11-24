@@ -1,4 +1,4 @@
-FROM node:14-alpine as build
+FROM node:16-alpine as build
 WORKDIR /app
 RUN apk add --no-cache tzdata
 ENV TZ=America/Sao_Paulo
@@ -6,9 +6,9 @@ ENV TZ=America/Sao_Paulo
 RUN npm install -g @angular/cli
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --force
 COPY . .
 RUN npm run build
 
 FROM nginx as runtime
-COPY --from=build /app/dist/mclaren /usr/share/nginx/html
+COPY --from=build /app/dist/front /usr/share/nginx/html
