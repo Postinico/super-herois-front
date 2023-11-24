@@ -3,8 +3,8 @@
 Ideia não era ter feito tudo em uma página, mas o tempo estava curto.
 
 # Funcionalidades
-Adicionar, alterar, deletar, listar,vizualizar funcionando.
+Adicionar, alterar, deletar, listar e vizualizar funcionando.
 
 
 # Obs:
-para cadastrar heróis e necessário cadastrar os poderes antes.
+Cadastro de heróis e necessário cadastrar os superpoderes antes.
