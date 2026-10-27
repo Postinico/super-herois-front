@@ -1,0 +1,87 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      
+      <!-- Card Principal do Dossiê -->
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        
+        <!-- Cabeçalho Temático (Azul com Detalhes Amarelos) -->
+        <div class="text-white p-4 d-flex justify-content-between align-items-center position-relative" 
+             style="background: linear-gradient(135deg, #0d6efd 0%, #0a2540 100%);">
+          
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 64px; height: 64px;">
+              <i class="fa fa-shield fa-2x"></i>
+            </div>
+            <div>
+              <span class="badge bg-warning text-dark mb-1 fw-bold text-uppercase tracking-wide">Dossiê Oficial</span>
+              <h2 class="mb-0 fw-bold text-white">{{ heroiDetalhe.nomeHeroi }}</h2>
+            </div>
+          </div>
+
+          <a routerLink="/herois" class="btn btn-outline-light btn-sm px-3 rounded-pill fw-semibold">
+            <i class="fa fa-arrow-left me-1"></i> Voltar
+          </a>
+        </div>
+
+        <!-- Corpo do Dossiê -->
+        <div class="card-body p-4 bg-light">
+          
+          <!-- Grid de Informações -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <div class="p-3 bg-white rounded-3 shadow-sm border-start border-primary border-4">
+                <span class="text-muted small d-block">Nome Completo</span>
+                <strong class="fs-6 text-dark">{{ heroiDetalhe.nome }}</strong>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="p-3 bg-white rounded-3 shadow-sm border-start border-warning border-4">
+                <span class="text-muted small d-block">Data de Nascimento</span>
+                <strong class="fs-6 text-dark">{{ heroiDetalhe.dataNascimento | date:'dd/MM/yyyy' }}</strong>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="p-3 bg-white rounded-3 shadow-sm border-start border-primary border-4">
+                <span class="text-muted small d-block">Altura</span>
+                <strong class="fs-6 text-dark">{{ heroiDetalhe.altura }} m</strong>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="p-3 bg-white rounded-3 shadow-sm border-start border-warning border-4">
+                <span class="text-muted small d-block">Peso</span>
+                <strong class="fs-6 text-dark">{{ heroiDetalhe.peso }} kg</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção de Superpoderes -->
+          <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
+            <h5 class="text-primary fw-bold mb-3">
+              <i class="fa fa-bolt text-warning me-2"></i>Superpoderes Registrados
+            </h5>
+            <div class="d-flex flex-wrap gap-2">
+              <span *ngFor="let poder of heroiDetalhe.superpoderes" 
+                    class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill fs-6 fw-normal">
+                <i class="fa fa-star text-warning me-1 small"></i> {{ poder }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Rodapé com Ação -->
+        <div class="card-footer bg-white border-0 p-4 pt-0 d-flex justify-content-end">
+          <a [routerLink]="['/herois/editar', heroiDetalhe.id]" class="btn btn-warning text-dark fw-bold px-4 rounded-pill shadow-sm">
+            <i class="fa fa-pencil me-1"></i> Editar Herói
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

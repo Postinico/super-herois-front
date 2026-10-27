@@ -1,0 +1,96 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      
+      <!-- Card Principal do Formulário -->
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        
+        <!-- Cabeçalho Temático -->
+        <div class="text-white p-4 d-flex justify-content-between align-items-center" 
+             style="background: linear-gradient(135deg, #0d6efd 0%, #0a2540 100%);">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 56px; height: 56px;">
+              <i class="fa fa-user-plus fa-2x"></i>
+            </div>
+            <div>
+              <span class="badge bg-warning text-dark mb-1 fw-bold text-uppercase tracking-wide">Base de Operações</span>
+              <h2 class="mb-0 fw-bold text-white">{{ isModoEdicao ? 'Atualizar Dossiê' : 'Novo Recrutamento' }}</h2>
+            </div>
+          </div>
+
+          <a routerLink="/herois" class="btn btn-outline-light btn-sm px-3 rounded-pill fw-semibold">
+            <i class="fa fa-arrow-left me-1"></i> Voltar
+          </a>
+        </div>
+
+        <!-- Corpo do Formulário -->
+        <div class="card-body p-4 bg-light text-start">
+          
+          <div class="row g-3">
+            
+            <!-- Nome Completo -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-dark small">
+                <i class="fa fa-user text-primary me-1"></i> Nome Completo:
+              </label>
+              <input type="text" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.nome" placeholder="Ex: Clark Kent">
+            </div>
+            
+            <!-- Nome de Herói -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-dark small">
+                <i class="fa fa-shield text-warning me-1"></i> Nome de Herói:
+              </label>
+              <input type="text" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.nomeHeroi" placeholder="Ex: Superman">
+            </div>
+            
+            <!-- Data de Nascimento (Calendário) -->
+            <div class="col-md-12">
+              <label class="form-label fw-semibold text-dark small">
+                <i class="fa fa-calendar text-primary me-1"></i> Data de Nascimento:
+              </label>
+              <input type="date" class="form-control rounded-3 shadow-sm" [(ngModel)]="dataNascimentoInput">
+            </div>
+            
+            <!-- Altura -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-dark small">
+                <i class="fa fa-arrows-v text-primary me-1"></i> Altura (m):
+              </label>
+              <input type="number" step="0.01" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.altura" placeholder="1.85">
+            </div>
+            
+            <!-- Peso -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-dark small">
+                <i class="fa fa-balance-scale text-warning me-1"></i> Peso (kg):
+              </label>
+              <input type="number" step="0.1" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.peso" placeholder="90">
+            </div>
+
+            <!-- Superpoderes -->
+            <div class="col-md-12">
+              <label class="form-label fw-semibold text-dark small">
+                <i class="fa fa-bolt text-warning me-1"></i> Superpoderes (separados por vírgula):
+              </label>
+              <input type="text" class="form-control rounded-3 shadow-sm" [(ngModel)]="superpoderesInputTexto" placeholder="Voo, Super Força, Visão de Raio-X">
+              <div class="form-text text-muted small">Insira os poderes separados por vírgula para convertê-los automaticamente.</div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Rodapé com Ação de Salvar -->
+        <div class="card-footer bg-white border-0 p-4 pt-0 d-flex justify-content-end gap-2">
+          <a routerLink="/herois" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold">Cancelar</a>
+          <button type="button" class="btn btn-warning text-dark fw-bold px-4 rounded-pill shadow-sm" (click)="salvarHeroi()">
+            <i class="fa fa-save me-1"></i> {{ isModoEdicao ? 'Salvar Alterações' : 'Cadastrar Herói' }}
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

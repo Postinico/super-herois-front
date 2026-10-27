@@ -1,0 +1,111 @@
+/* Garante que o wrapper ocupe 100% da largura e altura da tela sem margens vazias */
+.liquid-hero-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #020817 0%, #061a33 50%, #0a2540 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+}
+
+/* Efeito Liquid Glass expansivo de alto impacto */
+.liquid-glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2.5rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.25),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Linha de reflexo de luz no topo do vidro */
+.glass-reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+}
+
+/* Botão Estilo Dourado Líquido com Glow Intenso */
+.btn-liquid-gold {
+  background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4),
+              inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  color: #111 !important;
+}
+
+.btn-liquid-gold:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(255, 193, 7, 0.7),
+              inset 0 1px 3px rgba(255, 255, 255, 0.8);
+  background: linear-gradient(135deg, #ffca28 0%, #ffa000 100%);
+}
+
+/* Texto Glow Dourado */
+.text-glow {
+  text-shadow: 0 0 35px rgba(255, 193, 7, 0.7);
+}
+
+/* Letter Spacing */
+.tracking-wider {
+  letter-spacing: 2.5px;
+}
+
+.tracking-tight {
+  letter-spacing: -1.5px;
+}
+
+/* Blobs Líquidos de Fundo para dar o Efeito Fluido */
+.liquid-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.55;
+  animation: floatBlob 10s ease-in-out infinite alternate;
+}
+
+.liquid-blob-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(13, 110, 253, 0.35);
+  top: 5%;
+  left: 10%;
+}
+
+.liquid-blob-2 {
+  width: 600px;
+  height: 600px;
+  background: rgba(255, 193, 7, 0.18);
+  bottom: 5%;
+  right: 10%;
+  animation-delay: -5s;
+}
+
+.liquid-blob-3 {
+  width: 400px;
+  height: 400px;
+  background: rgba(0, 212, 255, 0.2);
+  top: 40%;
+  right: 30%;
+  animation-delay: -2s;
+}
+
+@keyframes floatBlob {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  100% {
+    transform: translateY(-30px) scale(1.1);
+  }
+}

@@ -1,0 +1,54 @@
+/* Efeito de Sombra Elevada ao Passar o Mouse */
+.hover-card {
+  transition: all 0.3s ease-in-out;
+}
+.hover-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1rem 3rem rgba(13, 110, 253, 0.25) !important;
+}
+
+/* Estrutura 3D do Flip Card */
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px;
+  height: 530px; /* Altura ajustada para caber os botões da frente */
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Gira 180 graus quando a classe 'flipped' é acionada */
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Frente e Verso */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.flip-card-front {
+  background-color: #ffffff;
+  z-index: 2;
+}
+
+.flip-card-back {
+  background-color: #ffffff !important;
+  color: #212529;
+  transform: rotateY(180deg);
+  z-index: 1;
+}

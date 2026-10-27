@@ -7,10 +7,18 @@ import { AppComponent } from './app.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HeroiListaComponent } from './paginas/heroi-lista/heroi-lista.component';
+import { HeroiDetalhesComponent } from './paginas/heroi-detalhes/heroi-detalhes.component';
+import { HeroiFormComponent } from './paginas/heroi-form/heroi-form.component';
+import { HomeComponent } from './paginas/home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeroiListaComponent,
+    HeroiDetalhesComponent,
+    HeroiFormComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

@@ -1,42 +1,36 @@
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { environment } from "src/environments/environment.prod";
-import { DeleteHeroiOut, ObterHeroiOut, ObterIdHeroiOut, PostHeroiIn, PostHeroiOut, PutHeroiIn, PutHeroiOut } from "../models/heroi.model";
-import { Injectable } from "@angular/core";
-
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ApiResponse, PagedResult, HeroiListItem, HeroiDetalhes, HeroiIn } from 'src/app/models/heroi.model';
 @Injectable({
-    providedIn: 'root'
-  })
-export class HeroiService {
+  providedIn: 'root'
+})
+export class ApiService {
+  private apiUrl = 'https://localhost:7177/api/v1';
 
-    protected urlApi: string = environment.urlApi;
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) { }
+  obterHerois(pagina: number = 1, tamanho: number = 20): Observable<ApiResponse<PagedResult<HeroiListItem>>> {
+    return this.http.get<ApiResponse<PagedResult<HeroiListItem>>>(`${this.apiUrl}/herois?Pagina=${pagina}&Tamanho=${tamanho}`);
+  }
 
-    get(): Observable<ObterHeroiOut> {
-        let url = `${this.urlApi}heroi`;
-        return this.http.get<ObterHeroiOut>(url);
-    }
+  obterHeroiPorId(id: string): Observable<ApiResponse<HeroiDetalhes>> {
+    return this.http.get<ApiResponse<HeroiDetalhes>>(`${this.apiUrl}/herois/${id}`);
+  }
 
-    getId(id: number): Observable<ObterIdHeroiOut> {
-        let url = `${this.urlApi}heroi/${id}`
-        return this.http.get<ObterIdHeroiOut>(url);
-    }
+  cadastrarHeroi(hero: HeroiIn): Observable<ApiResponse<HeroiDetalhes>> {
+    return this.http.post<ApiResponse<HeroiDetalhes>>(`${this.apiUrl}/herois`, hero);
+  }
 
-    post(heroi: PostHeroiIn): Observable<PostHeroiOut> {
-        let url = `${this.urlApi}heroi`
-        return this.http.post<PostHeroiOut>(url, heroi)
-    }
+  atualizarHeroi(id: string, hero: HeroiIn): Observable<ApiResponse<HeroiDetalhes>> {
+    return this.http.put<ApiResponse<HeroiDetalhes>>(`${this.apiUrl}/herois/${id}`, hero);
+  }
 
-    put(id: number, heroi: PutHeroiIn): Observable<PutHeroiOut> {
-        let url = `${this.urlApi}heroi/alterar/${id}`
-        return this.http.put<PutHeroiOut>(url, heroi)
-    }
+  deletarHeroi(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/herois/${id}`, { responseType: 'text' });
+  }
 
-    delete(id: number): Observable<DeleteHeroiOut> {
-        let url = `${this.urlApi}heroi/deletar/${id}`
-        return this.http.delete<DeleteHeroiOut>(url)
-    }
-
+  ativarHeroi(id: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/herois/ativar/${id}`, {}, { responseType: 'text' });
+  }
 }
-

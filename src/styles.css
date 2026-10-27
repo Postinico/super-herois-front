@@ -1,2 +1,15 @@
 
 @import "~bootstrap/dist/css/bootstrap.css";
+
+/* Efeito de sombra moderno e transição suave ao passar o mouse */
+.card-heroi {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+}
+
+.card-heroi:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
