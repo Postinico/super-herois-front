@@ -24,70 +24,148 @@
         </div>
 
         <!-- Corpo do Formulário -->
-        <div class="card-body p-4 bg-light text-start">
-          
-          <div class="row g-3">
+        <form (ngSubmit)="salvarHeroi()">
+          <div class="card-body p-4 bg-light text-start">
             
-            <!-- Nome Completo -->
-            <div class="col-md-6">
-              <label class="form-label fw-semibold text-dark small">
-                <i class="fa fa-user text-primary me-1"></i> Nome Completo:
-              </label>
-              <input type="text" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.nome" placeholder="Ex: Clark Kent">
-            </div>
-            
-            <!-- Nome de Herói -->
-            <div class="col-md-6">
-              <label class="form-label fw-semibold text-dark small">
-                <i class="fa fa-shield text-warning me-1"></i> Nome de Herói:
-              </label>
-              <input type="text" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.nomeHeroi" placeholder="Ex: Superman">
-            </div>
-            
-            <!-- Data de Nascimento (Calendário) -->
-            <div class="col-md-12">
-              <label class="form-label fw-semibold text-dark small">
-                <i class="fa fa-calendar text-primary me-1"></i> Data de Nascimento:
-              </label>
-              <input type="date" class="form-control rounded-3 shadow-sm" [(ngModel)]="dataNascimentoInput">
-            </div>
-            
-            <!-- Altura -->
-            <div class="col-md-6">
-              <label class="form-label fw-semibold text-dark small">
-                <i class="fa fa-arrows-v text-primary me-1"></i> Altura (m):
-              </label>
-              <input type="number" step="0.01" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.altura" placeholder="1.85">
-            </div>
-            
-            <!-- Peso -->
-            <div class="col-md-6">
-              <label class="form-label fw-semibold text-dark small">
-                <i class="fa fa-balance-scale text-warning me-1"></i> Peso (kg):
-              </label>
-              <input type="number" step="0.1" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.peso" placeholder="90">
-            </div>
+            <div class="row g-3">
+              
+              <!-- Nome Completo -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-dark small">
+                  <i class="fa fa-user text-primary me-1"></i> Nome Completo:
+                </label>
+                <input type="text" name="nome" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.nome" placeholder="Ex: Clark Kent" required>
+              </div>
+              
+              <!-- Nome de Herói -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-dark small">
+                  <i class="fa fa-shield text-warning me-1"></i> Nome de Herói:
+                </label>
+                <input type="text" name="nomeHeroi" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.nomeHeroi" placeholder="Ex: Superman" required>
+              </div>
+              
+              <!-- Data de Nascimento (Calendário) -->
+              <div class="col-md-12">
+                <label class="form-label fw-semibold text-dark small">
+                  <i class="fa fa-calendar text-primary me-1"></i> Data de Nascimento:
+                </label>
+                <input type="date" name="dataNascimento" class="form-control rounded-3 shadow-sm" [(ngModel)]="dataNascimentoInput">
+              </div>
+              
+              <!-- Altura -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-dark small">
+                  <i class="fa fa-arrows-v text-primary me-1"></i> Altura (m):
+                </label>
+                <input type="number" name="altura" step="0.01" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.altura" placeholder="1.85">
+              </div>
+              
+              <!-- Peso -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-dark small">
+                  <i class="fa fa-balance-scale text-warning me-1"></i> Peso (kg):
+                </label>
+                <input type="number" name="peso" step="0.1" class="form-control rounded-3 shadow-sm" [(ngModel)]="heroiForm.peso" placeholder="90">
+              </div>
 
-            <!-- Superpoderes -->
-            <div class="col-md-12">
-              <label class="form-label fw-semibold text-dark small">
-                <i class="fa fa-bolt text-warning me-1"></i> Superpoderes (separados por vírgula):
-              </label>
-              <input type="text" class="form-control rounded-3 shadow-sm" [(ngModel)]="superpoderesInputTexto" placeholder="Voo, Super Força, Visão de Raio-X">
-              <div class="form-text text-muted small">Insira os poderes separados por vírgula para convertê-los automaticamente.</div>
+              <!-- ETAPA 1: Escolha do Quadro Primeiro -->
+              <div class="col-md-12 mt-4">
+                <label class="form-label fw-semibold text-dark small mb-2">
+                  <i class="fa fa-th-large text-primary me-1"></i> 1. Escolha o Quadro de Poderes:
+                </label>
+                
+                <div class="row g-3">
+                  <!-- Card Seleção Quadro Aura -->
+                  <div class="col-md-6">
+                    <div class="card h-100 border-2 cursor-pointer shadow-sm rounded-3 transition-all"
+                         [ngClass]="quadroSelecionado === 'aura' ? 'border-primary bg-light-primary shadow' : 'border-light bg-white'"
+                         (click)="selecionarQuadro('aura')"
+                         style="cursor: pointer;">
+                      <div class="card-body text-center p-3">
+                        <i class="fa fa-sun-o fa-2x text-primary mb-2"></i>
+                        <h5 class="fw-bold text-dark mb-1">Farmar Aura (Virtudes)</h5>
+                        <p class="text-muted small mb-0">Foco em paz, amor, caridade e evolução espiritual.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Card Seleção Quadro Procrastinação -->
+                  <div class="col-md-6">
+                    <div class="card h-100 border-2 cursor-pointer shadow-sm rounded-3 transition-all"
+                         [ngClass]="quadroSelecionado === 'procrastinacao' ? 'border-warning shadow' : 'border-light bg-white'"
+                         (click)="selecionarQuadro('procrastinacao')"
+                         style="cursor: pointer;">
+                      <div class="card-body text-center p-3">
+                        <i class="fa fa-fire fa-2x text-warning mb-2"></i>
+                        <h5 class="fw-bold text-dark mb-1">Vencer a Procrastinação</h5>
+                        <p class="text-muted small mb-0">Foco em foco absoluto, disciplina e ação imediata.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ETAPA 2: Exibir Poderes do Quadro Escolhido (Máximo 3) -->
+              <div class="col-md-12 mt-3" *ngIf="quadroSelecionado">
+                <div class="card border-0 shadow-sm rounded-3 bg-white">
+                  <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-2 rounded-top-3">
+                    <span class="small fw-bold">
+                      <i class="fa fa-bolt text-warning me-1"></i> 
+                      Poderes do Quadro: {{ quadroSelecionado === 'aura' ? 'Farmar Aura' : 'Vencer a Procrastinação' }}
+                    </span>
+                    <span class="badge rounded-pill" 
+                          [ngClass]="heroiForm.superpoderes.length === maxPoderes ? 'bg-success' : 'bg-warning text-dark'">
+                      {{ heroiForm.superpoderes.length }} / {{ maxPoderes }} selecionados
+                    </span>
+                  </div>
+
+                  <div class="card-body p-3">
+                    <!-- Opções do Quadro Aura -->
+                    <div class="d-flex flex-wrap gap-2" *ngIf="quadroSelecionado === 'aura'">
+                      <button type="button"
+                              *ngFor="let poder of poderesAura"
+                              (click)="alternarPoder(poder)"
+                              [disabled]="!isPoderSelecionado(poder) && heroiForm.superpoderes.length >= maxPoderes"
+                              class="btn btn-sm rounded-pill fw-semibold"
+                              [ngClass]="isPoderSelecionado(poder) ? 'btn-primary shadow-sm' : 'btn-outline-primary'">
+                        <i class="fa me-1" [ngClass]="isPoderSelecionado(poder) ? 'fa-check-circle' : 'fa-plus-circle'"></i>
+                        {{ poder }}
+                      </button>
+                    </div>
+
+                    <!-- Opções do Quadro Procrastinação -->
+                    <div class="d-flex flex-wrap gap-2" *ngIf="quadroSelecionado === 'procrastinacao'">
+                      <button type="button"
+                              *ngFor="let poder of poderesProcrastinacao"
+                              (click)="alternarPoder(poder)"
+                              [disabled]="!isPoderSelecionado(poder) && heroiForm.superpoderes.length >= maxPoderes"
+                              class="btn btn-sm rounded-pill fw-semibold"
+                              [ngClass]="isPoderSelecionado(poder) ? 'btn-warning text-dark shadow-sm' : 'btn-outline-dark'">
+                        <i class="fa me-1" [ngClass]="isPoderSelecionado(poder) ? 'fa-check-circle' : 'fa-plus-circle'"></i>
+                        {{ poder }}
+                      </button>
+                    </div>
+
+                    <div class="form-text text-muted small mt-2">
+                      Escolha até <strong>{{ maxPoderes }} poderes</strong> deste quadro. Clique novamente no poder para desmarcar.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
           </div>
 
-        </div>
-
-        <!-- Rodapé com Ação de Salvar -->
-        <div class="card-footer bg-white border-0 p-4 pt-0 d-flex justify-content-end gap-2">
-          <a routerLink="/herois" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold">Cancelar</a>
-          <button type="button" class="btn btn-warning text-dark fw-bold px-4 rounded-pill shadow-sm" (click)="salvarHeroi()">
-            <i class="fa fa-save me-1"></i> {{ isModoEdicao ? 'Salvar Alterações' : 'Cadastrar Herói' }}
-          </button>
-        </div>
+          <!-- Rodapé com Ação de Salvar -->
+          <div class="card-footer bg-white border-0 p-4 pt-0 d-flex justify-content-end gap-2">
+            <a routerLink="/herois" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold">Cancelar</a>
+            <button type="submit" class="btn btn-warning text-dark fw-bold px-4 rounded-pill shadow-sm">
+              <i class="fa fa-save me-1"></i> {{ isModoEdicao ? 'Salvar Alterações' : 'Cadastrar Herói' }}
+            </button>
+          </div>
+        </form>
 
       </div>
 

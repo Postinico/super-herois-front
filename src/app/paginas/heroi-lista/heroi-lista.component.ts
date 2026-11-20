@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/heroi.service';
-import { HeroiListItem } from 'src/app/models/heroi.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -9,8 +8,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./heroi-lista.component.css']
 })
 export class HeroiListaComponent implements OnInit {
-  listaHerois: any[] = []; // Usamos any ou estendemos a interface para aceitar 'isFlipped'
-  carregandoNome: { [key: string]: boolean } = {}; // Controle de carregamento do nome no verso
+  listaHerois: any[] = []; 
+  carregandoNome: { [key: string]: boolean } = {}; 
 
   constructor(
     private apiService: ApiService,
@@ -25,11 +24,25 @@ export class HeroiListaComponent implements OnInit {
     this.apiService.obterHerois().subscribe({
       next: (resposta: any) => {
         const itens = resposta.response?.items || resposta.response || [];
-        // Mapeia adicionando a propriedade de controle do giro (isFlipped)
-        this.listaHerois = itens.map((h: any) => ({
-          ...h,
-          isFlipped: false
-        }));
+        
+        // Mapeia adicionando o controle de giro, estrelas conquistadas e fixando o total em 33
+        this.listaHerois = itens.map((h: any) => {
+          const storageKey = `estrelas_heroi_${h.id}`;
+          let estrelasAtuais = Number(localStorage.getItem(storageKey) || '6');
+          
+          if (estrelasAtuais < 33) {
+            estrelasAtuais += 3; 
+            if (estrelasAtuais > 33) estrelasAtuais = 33;
+            localStorage.setItem(storageKey, estrelasAtuais.toString());
+          }
+
+          return {
+            ...h,
+            isFlipped: false,
+            totalEstrelas: 33, // Garante 33 estrelas no total
+            estrelasConquistadas: h.estrelasConquistadas ?? estrelasAtuais
+          };
+        });
       },
       error: (erro) => {
         console.error('Erro ao carregar lista de heróis', erro);
@@ -38,18 +51,23 @@ export class HeroiListaComponent implements OnInit {
     });
   }
 
+  // Método auxiliar para gerar exatamente o array de estrelas baseado no total
+  obterArrayEstrelas(total: number): number[] {
+    const quantidade = total || 33;
+    return Array(quantidade).fill(0).map((_, i) => i + 1);
+  }
+
   // Função para alternar o estado de rotação do card e carregar os detalhes (nome) se necessário
   toggleFlip(heroi: any): void {
     heroi.isFlipped = !heroi.isFlipped;
 
-    // Se virou para o verso e ainda não tem o nome civil carregado, busca os detalhes na API
     if (heroi.isFlipped && !heroi.nome) {
       this.carregandoNome[heroi.id] = true;
 
       this.apiService.obterHeroiPorId(heroi.id).subscribe({
         next: (resposta: any) => {
           const dados = resposta.response || resposta;
-          heroi.nome = dados.nome; // Atribui o nome civil retornado da API
+          heroi.nome = dados.nome; 
           this.carregandoNome[heroi.id] = false;
         },
         error: (erro) => {

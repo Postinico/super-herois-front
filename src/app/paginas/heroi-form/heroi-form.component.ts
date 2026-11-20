@@ -12,9 +12,30 @@ import { ToastrService } from 'ngx-toastr';
 export class HeroiFormComponent implements OnInit {
   isModoEdicao: boolean = false;
   heroiId: string | null = null;
-
-  // Variável para controlar o input do tipo date (formato YYYY-MM-DD)
   dataNascimentoInput: string = '';
+
+  // Controle de quadros e limites
+  quadroSelecionado: 'aura' | 'procrastinacao' | null = null;
+  readonly maxPoderes: number = 3;
+
+  // Listas de Superpoderes
+  poderesAura: string[] = [
+    'Paz',
+    'Amor',
+    'Bem',
+    'Caridade',
+    'Perseverança',
+    'Empatia'
+  ];
+
+  poderesProcrastinacao: string[] = [
+    'Foco Absoluto',
+    'Disciplina',
+    'Ação Imediata',
+    'Constância',
+    'Clareza Mental',
+    'Determinação'
+  ];
 
   heroiForm: HeroiIn = {
     nome: '',
@@ -24,8 +45,6 @@ export class HeroiFormComponent implements OnInit {
     peso: 0,
     superpoderes: []
   };
-
-  superpoderesInputTexto: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +61,34 @@ export class HeroiFormComponent implements OnInit {
     }
   }
 
+  // Alterna o quadro escolhido e limpa os poderes anteriores
+  selecionarQuadro(quadro: 'aura' | 'procrastinacao'): void {
+    if (this.quadroSelecionado !== quadro) {
+      this.quadroSelecionado = quadro;
+      this.heroiForm.superpoderes = [];
+    }
+  }
+
+  // Verifica se o poder está selecionado
+  isPoderSelecionado(poder: string): boolean {
+    return this.heroiForm.superpoderes.includes(poder);
+  }
+
+  // Adiciona ou remove o poder respeitando o limite de 3
+  alternarPoder(poder: string): void {
+    const index = this.heroiForm.superpoderes.indexOf(poder);
+
+    if (index > -1) {
+      this.heroiForm.superpoderes.splice(index, 1);
+    } else {
+      if (this.heroiForm.superpoderes.length < this.maxPoderes) {
+        this.heroiForm.superpoderes.push(poder);
+      } else {
+        this.toastr.warning(`Você só pode escolher no máximo ${this.maxPoderes} superpoderes deste quadro!`);
+      }
+    }
+  }
+
   carregarDadosEdicao(id: string): void {
     this.apiService.obterHeroiPorId(id).subscribe({
       next: (resposta: any) => {
@@ -55,12 +102,20 @@ export class HeroiFormComponent implements OnInit {
           superpoderes: dados.superpoderes || []
         };
 
-        // Formata a data recebida da API (ISO) para YYYY-MM-DD para exibir no calendário
+        // Formata a data para YYYY-MM-DD
         if (dados.dataNascimento) {
           this.dataNascimentoInput = new Date(dados.dataNascimento).toISOString().split('T')[0];
         }
 
-        this.superpoderesInputTexto = this.heroiForm.superpoderes.join(', ');
+        // Descobre automaticamente qual era o quadro com base nos poderes salvos
+        if (this.heroiForm.superpoderes.length > 0) {
+          const primeiroPoder = this.heroiForm.superpoderes[0];
+          if (this.poderesAura.includes(primeiroPoder)) {
+            this.quadroSelecionado = 'aura';
+          } else if (this.poderesProcrastinacao.includes(primeiroPoder)) {
+            this.quadroSelecionado = 'procrastinacao';
+          }
+        }
       },
       error: (erro) => {
         console.error('Erro ao carregar dados para edição', erro);
@@ -70,19 +125,20 @@ export class HeroiFormComponent implements OnInit {
   }
 
   salvarHeroi(): void {
-    // 1. Converte a data do calendário (YYYY-MM-DD) para ISO String exigida pela API
-    if (this.dataNascimentoInput) {
-      this.heroiForm.dataNascimento = new Date(this.dataNascimentoInput).toISOString();
+    // Validação de segurança para garantir que um quadro e poderes foram escolhidos
+    if (!this.quadroSelecionado) {
+      this.toastr.warning('Por favor, escolha um quadro de poderes.');
+      return;
     }
 
-    // 2. Processa os superpoderes
-    if (this.superpoderesInputTexto) {
-      this.heroiForm.superpoderes = this.superpoderesInputTexto
-        .split(',')
-        .map(p => p.trim())
-        .filter(p => p.length > 0);
-    } else {
-      this.heroiForm.superpoderes = [];
+    if (this.heroiForm.superpoderes.length === 0) {
+      this.toastr.warning('Selecione pelo menos 1 superpoder.');
+      return;
+    }
+
+    // Evita bug de fuso horário na conversão da data
+    if (this.dataNascimentoInput) {
+      this.heroiForm.dataNascimento = new Date(`${this.dataNascimentoInput}T12:00:00`).toISOString();
     }
 
     if (this.isModoEdicao && this.heroiId) {

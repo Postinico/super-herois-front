@@ -7,11 +7,11 @@
   box-shadow: 0 1rem 3rem rgba(13, 110, 253, 0.25) !important;
 }
 
-/* Estrutura 3D do Flip Card */
+/* Estrutura 3D do Flip Card - Altura ideal de 610px */
 .flip-card {
   background-color: transparent;
   perspective: 1000px;
-  height: 530px; /* Altura ajustada para caber os botões da frente */
+  height: 610px; 
 }
 
 .flip-card-inner {
@@ -51,4 +51,40 @@
   color: #212529;
   transform: rotateY(180deg);
   z-index: 1;
+}
+
+/* Área da Imagem/Banner no Topo */
+.image-banner-area {
+  height: 180px;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a2540 100%);
+  position: relative;
+}
+
+.z-index-content {
+  z-index: 10;
+}
+
+/* Container para as 33 estrelas com altura generosa e espaçamento uniforme */
+/* Container otimizado para as 33 estrelas quebrarem linha perfeitamente */
+/* Container otimizado para comportar exatamente as 33 estrelas sem ocultar nenhuma */
+.star-33-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 2px;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 0;
+  width: 100%;
+}
+
+/* Tamanho compacto e elegante para caberem 3 fileiras perfeitas com 11 estrelas cada */
+.star-33-container i {
+  font-size: 0.75rem; 
+  flex: 0 0 8.33%; /* Garante divisão exata para quebra de linha uniforme */
+  text-align: center;
+}
+
+/* Amarelo puro estritamente dentro da estrela */
+.star-preenchida {
+  color: #ffc107 !important;
 }
